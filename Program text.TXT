@@ -1,0 +1,107 @@
+
+//using System;
+
+//namespace Matrix
+//{
+//    class Program
+//    {
+//        static void Main(string[] args)
+//        {
+//            Console.WriteLine("Size of matrix:");
+//            int n= Convert.ToInt16(Console.ReadLine());
+//            int[,] myArr = new int[4, 4];
+
+//            Random ran = new Random();
+
+//            // Инициализируем данный массив
+//            for (int i = 0; i < 4; i++)
+//            {
+//                for (int j = 0; j < 4; j++)
+//                {
+//                    myArr[i, j] = ran.Next(1, 15);
+//                    Console.Write("{0}\t", myArr[i, j]);
+//                }
+//                Console.WriteLine();
+//            }
+//        }
+//    }
+//}
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+using System.Globalization;
+
+namespace Matrix
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.Write("Please input size of matrix: ");
+            int size=Math.Abs(int.Parse(Console.ReadLine()));
+            if(size<0)
+            {
+                Console.WriteLine("You input incorect size of matrix but your data took on the module");
+            }
+            int[,]mas=new int[size,size];
+            Console.WriteLine();
+            List<int>matchKNumbers=new List<int>();// cтворив список для об'єкта типу int
+            Console.WriteLine("Input matrix:");
+            for (int i=0; i<size; i++)
+            {
+                for (int j=0; j<size; j++)
+                {
+                    Console.Write("mas[" + i + "," + j + "]: ");
+                    mas[i,j] = int.Parse(Console.ReadLine());
+                }
+            }
+            Console.WriteLine();
+
+            for (int i=0; i<size; i++)
+            {
+                for (int j=0; j<size; j++)
+                {
+                    Console.Write(+ mas[i,j]+"\t");
+                }
+                Console.WriteLine();
+            }
+            Console.ReadLine();
+            Console.WriteLine("******************************************************First task*******************************************************\n");
+            for (int i=0; i<size; i++)
+            {//шукаю k-рядок шо співпадає з k-стовпцем
+                bool doesMatch = true;
+                for (int j = 0; j < size; j++)
+                    if (mas[i, j] != mas[j, i])
+                        doesMatch = false;
+                if (doesMatch)
+                    matchKNumbers.Add(i);
+            }
+            foreach (int number in matchKNumbers)//foreach це оператор який забезпечує понятний спосіб ітерації по елементах масива або перечисленій колекції
+                Console.WriteLine("k={0}", number);
+            Console.WriteLine("******************************************************Second task*******************************************************");
+            for (int i=0; i<size; i++)
+            {//cума елементів в тих рядках які містять хоча б один відємний елемент
+                bool NegativeItem=false;
+                for (int j=0; j<size; j++)
+                    if (mas[i,j] < 0)
+                        NegativeItem=true;
+                if (NegativeItem)
+                {
+                    double sum=0;
+                    for (int j=0; j<size; j++)
+                        sum += mas[i,j];
+                    Console.WriteLine("Sum of line {0} = {1}", i, sum);
+                }
+                if(!NegativeItem)
+                {
+                    Console.WriteLine("No negetive elements in line {0} so there is nothing to calculate", i);
+                }
+            }
+            Console.ReadKey();
+        }
+
+    }
+}
